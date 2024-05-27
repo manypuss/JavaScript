@@ -27,13 +27,17 @@ public class UserController {
     }
 
     @GetMapping()
-    public String homePage(){
-        return "home-page";
-    }
-
-    @GetMapping("/admin")
-    public String showAllUsers(Model model) {
+    public String homePage(Model model){
         List<User> allUsers = userService.getAllUsers();
+        model.addAttribute("allUsers", allUsers);
+        return "all-users-bootstrap";
+    }
+    // Добавил @ModelAttribute("user") User user,
+    // model.addAttribute("allRoles", roleService.getAllRoles());
+    @GetMapping("/admin")
+    public String showAllUsers(@ModelAttribute("user") User user, Model model) {
+        List<User> allUsers = userService.getAllUsers();
+        model.addAttribute("allRoles", roleService.getAllRoles());
         model.addAttribute("allUsers", allUsers);
         return "all-users";
     }

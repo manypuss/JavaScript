@@ -4,6 +4,7 @@ package ru.kata.spring.boot_security.demo.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.kata.spring.boot_security.demo.dao.UserDAO;
 import ru.kata.spring.boot_security.demo.model.User;
@@ -17,9 +18,12 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     private final UserDAO userDAO;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
-    public UserServiceImpl(UserDAO userDAO) {
+    public UserServiceImpl(UserDAO userDAO, PasswordEncoder passwordEncoder) {
         this.userDAO = userDAO;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -31,6 +35,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void saveUserWithRole(User user, Collection<Long> roleIds) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userDAO.saveUserWithRole(user, roleIds);
     }
 
@@ -52,15 +57,4 @@ public class UserServiceImpl implements UserService {
         return userDAO.getUserByUsername(username);
     }
 
-
-    @Override
-    @Transactional
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = getUserByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException(String.format("User '%s' not found", username));
-        }
-        user.getAuthorities();
-        return user;
-    }
 }

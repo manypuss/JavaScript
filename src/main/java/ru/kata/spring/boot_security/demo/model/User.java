@@ -6,9 +6,12 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.transaction.Transactional;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.stream.Collectors;
+
 
 @Entity
 @Table(name = "users")
@@ -17,14 +20,26 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
+    @NotNull(message = "Name should not be empty!")
+    @Size(min = 2, max = 100, message = "Name should be between 2 and 100 characters!")
     @Column(name = "username")
     private String username;
+
+    @NotNull(message = "Surname should not be empty!")
+    @Size(min = 2, max = 100, message = "Surname should be between 2 and 100 characters!")
     @Column(name = "usersurname")
     private String usersurname;
+    @NotNull(message = "Department should not be empty!")
+    @Size(min = 2, max = 15, message = "Department should be between 2 and 15 characters!")
     @Column(name = "department")
     private String department;
+
+    @Min(value = 500, message = "Salary cannot be less than 500")
     @Column(name = "salary")
     private int salary;
+    @NotNull(message = "Password should not be empty!")
+    @Size(min = 6, max = 20, message = "Password should be between 6 and 20 characters!")
     @Column(name = "password")
     private String password;
     @ManyToMany(fetch = FetchType.LAZY)

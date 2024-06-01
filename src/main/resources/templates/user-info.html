@@ -18,18 +18,23 @@
     <input type="hidden" name="id" th:value="${user.getId()}"/>
     <label for="name">Enter name: </label>
     <input type="text" th:field="*{username}" id="name">
+    <div style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username error</div>
     <br/><br/>
     <label for="surname">Enter surname: </label>
     <input type="text" th:field="*{usersurname}" id="surname">
+    <div style="color: red" th:if="${#fields.hasErrors('usersurname')}" th:errors="*{usersurname}">Usersurname error</div>
     <br/><br/>
     <label for="department">Enter department: </label>
     <input type="text" th:field="*{department}" id="department">
+    <div style="color: red" th:if="${#fields.hasErrors('department')}" th:errors="*{department}">Department error</div>
     <br/><br/>
     <label for="salary">Enter salary: </label>
     <input type="text" th:field="*{salary}" id="salary">
+    <div style="color: red" th:if="${#fields.hasErrors('salary')}" th:errors="*{salary}">Salary error</div>
     <br/><br/>
     <label for="password">Enter password: </label>
     <input type="text" th:field="*{password}" id="password">
+    <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</div>
     <br/><br/>
     <label>Roles:</label><br>
     <div th:each="role : ${allRoles}">

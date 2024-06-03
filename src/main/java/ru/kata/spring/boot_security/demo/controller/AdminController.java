@@ -12,7 +12,6 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.Collection;
-import java.util.List;
 
 @Controller
 @RequestMapping("/")
@@ -26,19 +25,22 @@ public class AdminController {
         this.roleService = roleService;
     }
 
-    @GetMapping()
-    public String homePage(Model model){
-        List<User> allUsers = userService.getAllUsers();
-        model.addAttribute("allUsers", allUsers);
-        return "all-users-bootstrap";
+    @GetMapping("/admin")
+    public String showAllUsers(@ModelAttribute("user") User user, Principal principal, Model model) {
+        model.addAttribute("admin", userService.getUserByUsername(principal.getName()));
+        model.addAttribute("allRoles", roleService.getAllRoles());
+        model.addAttribute("allUsers", userService.getAllUsers());
+        model.addAttribute("activeTable", "usersTable");
+        return "admin-page";
     }
 
-    @GetMapping("/admin")
-    public String showAllUsers(@ModelAttribute("user") User user, Model model) {
-        List<User> allUsers = userService.getAllUsers();
+    @GetMapping("/admin/profile")
+    public String getAdminProfile(@ModelAttribute("user") User user, Principal principal, Model model) {
+        model.addAttribute("admin", userService.getUserByUsername(principal.getName()));
         model.addAttribute("allRoles", roleService.getAllRoles());
-        model.addAttribute("allUsers", allUsers);
-        return "all-users";
+        model.addAttribute("allUsers", userService.getAllUsers());
+        model.addAttribute("activeTable", "userProfile");
+        return "admin-page";
     }
 
     @GetMapping("/admin/addNewUser")
@@ -50,11 +52,10 @@ public class AdminController {
 
     @PostMapping("/admin/saveNewUser")
     public String saveNewUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
-                              @ModelAttribute("allRoles")
                               @RequestParam("roleIds") Collection<Long> roleIds, Model model) {
         if(bindingResult.hasErrors()) {
             model.addAttribute("allRoles", roleService.getAllRoles());
-            return "user-info";
+            return "admin-page";
         }
         userService.saveUserWithRole(user, roleIds);
         return "redirect:/admin";

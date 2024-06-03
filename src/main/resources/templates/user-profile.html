@@ -14,103 +14,111 @@
         .full-height {
             height: 100%;
         }
+        #user-tab {
+            line-height: 1.5em; /* Высота строки */
+            margin-top: 0.75em; /* Половина высоты строки */
+        }
     </style>
 </head>
 <body class="d-flex flex-column">
-<nav class="navbar navbar-expand-lg bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand text-white ">
-            <span style="font-weight: bold" th:text="${user.getUsername()}"></span>
-            <span>with roles:</span>
-            <span th:each="role : ${user.getRoles()}">
-            <span th:text="${role.getName().substring(5)} "></span>
-            </span>
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Переключатель навигации">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ms-auto">
 
-                <li class="nav-item">
-                    <a class="nav-link text-secondary" href="/logout">Logout</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-<!--Контейнер для содержимого страницы-->
-<div class="container-fluid flex-grow-1">
-    <div class="row h-100">
-        <!-- Боковая панель -->
-        <div class="col-2 sidebar bg-white full-height">
-            <div class="list-group">
-                <!-- Ссылки -->
-                <a href="user"
-                   class="list-group-item list-group-item-action border-0 text-primary fw-bold text-light active">User</a>
+    <nav class="navbar navbar-expand-lg bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand text-white ">
+                <span style="font-weight: bold" th:text="${user.getUsername()}"></span>
+                <span>with roles:</span>
+                <span th:each="role : ${user.getRoles()}">
+                <span th:text="${role.getName().substring(5)} "></span>
+                </span>
+            </a>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link text-secondary" href="/logout">Logout</a>
+                    </li>
+                </ul>
             </div>
         </div>
+    </nav>
+    <!--Контейнер для содержимого страницы-->
+    <div class="container-fluid flex-grow-1">
+        <div class="row h-100">
+            <!-- Боковая панель -->
+            <div class="col-2 sidebar d-flex flex-column p-0">
+                <div class="list-group">
+                    <!-- Ссылки -->
+                    <a class="list-group-item list-group-item-action border-0 text-primary text-light active" id="user-tab">User</a >
+                </div>
+            </div>
 
-        <!--Админ панель-->
-        <div class="col-10 bg-secondary bg-light full-height"  >
-            <!--Контейнер для наименование панели-->
-            <div class="container-fluid">
-                <h1 class="pt-3 pb-3">
-                    User information-page
-                </h1>
-                <div class="col-md-auto">
-                    <div class="tab-content" id="myTabContent">
-                        <div class="tab-pane fade show active" id="users-table" role="tabpanel" aria-labelledby="users-table-tab">
-                            <!--Таблица данных пользователя-->
-                            <table class="table table-bordered table-striped">
-                                <tbody>
-                                <tr>
-                                    <td class="container-fluid">
-                                        <h6 class="pt-2">
-                                            About user
-                                        </h6>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="container-fluid">
-                                        <table class="table table-striped">
-                                            <thead>
-                                            <tr>
-                                                <th class="col" scope="col">Name</th>
-                                                <th class="col" scope="col">Surname</th>
-                                                <th class="col" scope="col">Department</th>
-                                                <th class="col" scope="col">Salary</th>
-                                                <th class="col" scope="col">Password</th>
-                                                <th class="col" scope="col">Roles</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr th:object="${user}">
-                                                <td class="col" th:text="${user.getUsername()}"></td>
-                                                <td class="col" th:text="${user.getUsersurname()}"></td>
-                                                <td class="col" th:text="${user.getDepartment()}"></td>
-                                                <td class="col" th:text="${user.getSalary()}"></td>
-                                                <td class="col" th:text="${user.getPassword()}"></td>
-                                                <td class="col align-top">
-                                                    <!-- Выравнивание по верхнему краю -->
-                                                    <span th:each="role : ${user.getRoles()}">
-                                                    <span th:text="${role.getName().substring(5)}"></span>
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
+
+            <!--Админ панель-->
+            <div class="col-10 bg-secondary bg-light full-height">
+
+                <div class="container-fluid" id="user">
+                    <!--Наименование панели-->
+                    <h1 class="pt-3 pb-3">
+                        User information-page
+                    </h1>
+                    <div class="col-md-auto">
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="users-table" role="tabpanel" aria-labelledby="users-table-tab">
+
+                                <!--Загрузка фрагмента для профиля админа-->
+                                <div th:fragment="user-profile">
+                                    <!--Таблица данных пользователя-->
+                                    <table class="table table-bordered table-striped">
+                                        <tbody>
+                                        <tr>
+                                            <td class="container-fluid">
+                                                <h6 class="pt-2">
+                                                    About user
+                                                </h6>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="container-fluid">
+                                                <table class="table table-striped">
+                                                    <thead>
+                                                    <tr>
+                                                        <th class="col" scope="col">Name</th>
+                                                        <th class="col" scope="col">Surname</th>
+                                                        <th class="col" scope="col">Department</th>
+                                                        <th class="col" scope="col">Salary</th>
+                                                        <th class="col" scope="col">Password</th>
+                                                        <th class="col" scope="col">Roles</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr th:object="${user}">
+                                                        <td class="col" th:text="${user.getUsername()}"></td>
+                                                        <td class="col" th:text="${user.getUsersurname()}"></td>
+                                                        <td class="col" th:text="${user.getDepartment()}"></td>
+                                                        <td class="col" th:text="${user.getSalary()}"></td>
+                                                        <td class="col" th:text="${user.getPassword()}"></td>
+                                                        <td class="col align-top">
+                                                            <!-- Выравнивание по верхнему краю -->
+                                                            <span th:each="role : ${user.getRoles()}">
+                                                            <span th:text="${role.getName().substring(5)}"></span>
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
-</div>
+
 </body>
 </html>

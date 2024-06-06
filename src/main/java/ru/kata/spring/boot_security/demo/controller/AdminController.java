@@ -67,6 +67,7 @@ public class AdminController {
 
     @PatchMapping("/admin")
     public String edit(@ModelAttribute("editUser") @Valid User user, BindingResult bindingResult,
+                       @RequestParam("roleIds") Collection<Long> roleIds,
                        Model model, Principal principal) {
 
         model.addAttribute("admin", userService.getUserByUsername(principal.getName()));
@@ -74,14 +75,13 @@ public class AdminController {
         if (bindingResult.hasErrors()) {
             return "admin-page";
         }
+        userService.saveUserWithRole(user, roleIds);
         return "redirect:/admin";
     }
 
     @DeleteMapping("/admin")
-    public String delete(@RequestParam("id") Long id, Model model) {
-        model.addAttribute("user", userService.getUserById(id));
+    public String delete(@RequestParam("id") Long id) {
         userService.deleteUserById(id);
         return "redirect:/admin";
     }
-
 }

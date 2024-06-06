@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,10 +15,7 @@
         .full-height {
             height: 100%;
         }
-        #user-tab {
-            line-height: 1.5em; /* Высота строки */
-            margin-top: 0.75em; /* Половина высоты строки */
-        }
+
     </style>
 </head>
 <body class="d-flex flex-column">
@@ -48,6 +46,10 @@
             <div class="col-2 sidebar d-flex flex-column p-0">
                 <div class="list-group">
                     <!-- Ссылки -->
+                    <div sec:authorize="hasRole('ROLE_ADMIN')">
+                        <a th:href="@{/admin}"  class="list-group-item list-group-item-action border-0 text-primary" id="admin-tab"
+                           data-bs-toggle="tab" role="tab" aria-controls="admin" aria-selected="true">Admin</a>
+                    </div>
                     <a class="list-group-item list-group-item-action border-0 text-primary text-light active" id="user-tab">User</a >
                 </div>
             </div>

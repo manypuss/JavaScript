@@ -26,7 +26,7 @@ public class AdminController {
     }
 
     @GetMapping("/admin")
-    public String showAllUsers(@ModelAttribute("user") User user, Principal principal, Model model) {
+    public String showAllUsers(@ModelAttribute("newUser") User user, Principal principal, Model model) {
         model.addAttribute("admin", userService.getUserByUsername(principal.getName()));
         model.addAttribute("allRoles", roleService.getAllRoles());
         model.addAttribute("allUsers", userService.getAllUsers());
@@ -34,42 +34,52 @@ public class AdminController {
         return "admin-page";
     }
 
-    @GetMapping("/admin/profile")
-    public String getAdminProfile(@ModelAttribute("user") User user, Principal principal, Model model) {
+   /* @GetMapping("/admin/profile")
+    public String getAdminProfile(@ModelAttribute("newUser") User user, Principal principal, Model model) {
         model.addAttribute("admin", userService.getUserByUsername(principal.getName()));
         model.addAttribute("allRoles", roleService.getAllRoles());
         model.addAttribute("allUsers", userService.getAllUsers());
         model.addAttribute("activeTable", "userProfile");
         return "admin-page";
-    }
+    }*/
 
-    @GetMapping("/admin/addNewUser")
+   /* @GetMapping("/admin/addNewUser")
     public String createUserModel(Model model) {
-        model.addAttribute("user", new User());
+        model.addAttribute("newUser", new User());
         model.addAttribute("allRoles", roleService.getAllRoles());
-        return "user-info";
-    }
+        model.addAttribute("activeTable", "addUser");
+        return "admin-page";
+    }*/
 
-    @PostMapping("/admin/saveNewUser")
-    public String saveNewUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
-                              @RequestParam("roleIds") Collection<Long> roleIds, Model model) {
+    @PostMapping("/admin")
+    public String saveNewUser(@ModelAttribute("newUser") @Valid User user, BindingResult bindingResult,
+                              @RequestParam("roleIds") Collection<Long> roleIds,Principal principal, Model model ) {
         if(bindingResult.hasErrors()) {
+            model.addAttribute("admin", userService.getUserByUsername(principal.getName()));
             model.addAttribute("allRoles", roleService.getAllRoles());
+            model.addAttribute("allUsers", userService.getAllUsers());
+            model.addAttribute("activeTable", "addUser");
             return "admin-page";
         }
         userService.saveUserWithRole(user, roleIds);
         return "redirect:/admin";
     }
 
-    @GetMapping("/admin/edit")
-    public String edit(@RequestParam("id") Long id, Model model) {
-        model.addAttribute("user", userService.getUserById(id));
+    @PatchMapping("/admin")
+    public String edit(@ModelAttribute("editUser") @Valid User user, BindingResult bindingResult,
+                       Model model, Principal principal) {
+
+        model.addAttribute("admin", userService.getUserByUsername(principal.getName()));
         model.addAttribute("allRoles", roleService.getAllRoles());
-        return "user-info";
+        if (bindingResult.hasErrors()) {
+            return "admin-page";
+        }
+        return "redirect:/admin";
     }
 
-    @PostMapping("/admin/delete")
-    public String delete(@RequestParam("id") Long id) {
+    @DeleteMapping("/admin")
+    public String delete(@RequestParam("id") Long id, Model model) {
+        model.addAttribute("user", userService.getUserById(id));
         userService.deleteUserById(id);
         return "redirect:/admin";
     }

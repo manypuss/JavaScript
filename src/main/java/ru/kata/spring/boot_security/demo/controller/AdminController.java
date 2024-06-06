@@ -66,7 +66,7 @@ public class AdminController {
     }
 
     @PatchMapping("/admin")
-    public String edit(@ModelAttribute("editUser") @Valid User user, BindingResult bindingResult,
+    public String edit(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
                        @RequestParam("roleIds") Collection<Long> roleIds,
                        Model model, Principal principal) {
 

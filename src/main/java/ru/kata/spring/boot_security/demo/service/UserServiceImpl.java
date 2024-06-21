@@ -2,59 +2,61 @@ package ru.kata.spring.boot_security.demo.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.kata.spring.boot_security.demo.dao.UserDAO;
 import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.repositories.UsersRepository;
+import ru.kata.spring.boot_security.demo.utils.NoSuchUserException;
 
 import javax.transaction.Transactional;
-import java.util.Collection;
 import java.util.List;
 
 
 @Service
 public class UserServiceImpl implements UserService {
-    private final UserDAO userDAO;
+    private final UsersRepository usersRepository;
 
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserDAO userDAO, PasswordEncoder passwordEncoder) {
-        this.userDAO = userDAO;
+    public UserServiceImpl(UsersRepository usersRepository, PasswordEncoder passwordEncoder) {
+        this.usersRepository = usersRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     @Transactional
     public List<User> getAllUsers() {
-        return userDAO.getAllUsers();
+        return usersRepository.findAll();
     }
 
     @Override
     @Transactional
-    public void saveUserWithRole(User user, Collection<Long> roleIds) {
+    public void saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userDAO.saveUserWithRole(user, roleIds);
+        usersRepository.save(user);
     }
 
     @Override
     @Transactional
     public User getUserById(Long id) {
-        return userDAO.getUserById(id);
+        return usersRepository.findById(id).orElseThrow(() -> new NoSuchUserException(
+                "There is no employee with ID = '" + id + "' in Database"
+        ));
     }
 
     @Override
     @Transactional
     public void deleteUserById(Long id) {
-        userDAO.deleteUserById(id);
+        if (usersRepository.findById(id).isPresent()){
+            usersRepository.deleteById(id);
+        }
     }
 
     @Override
     @Transactional
     public User getUserByUsername(String username) {
-        return userDAO.getUserByUsername(username);
+        return usersRepository.findByUsername(username);
     }
 
 }

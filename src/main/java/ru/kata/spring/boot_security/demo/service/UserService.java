@@ -10,7 +10,7 @@ import java.util.List;
 public interface UserService {
     List<User> getAllUsers();
 
-    void saveUserWithRole(User user, Collection<Long> roleIds);
+    void saveUser(User user);
 
     User getUserById(Long id);
 

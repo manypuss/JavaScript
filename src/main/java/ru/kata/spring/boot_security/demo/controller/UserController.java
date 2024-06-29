@@ -7,14 +7,15 @@ import org.springframework.ui.Model;
 
 import org.springframework.web.bind.annotation.*;
 
+import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 
 import java.security.Principal;
 
 
-@Controller
-@RequestMapping("/")
+@RestController
+@RequestMapping("/api/user")
 public class UserController {
 
     private final UserService userService;
@@ -24,10 +25,9 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/user")
-    public String getUserProfile(Principal principal, Model model) {
-        model.addAttribute("user", userService.getUserByUsername(principal.getName()));
-        return "user-profile";
+    @GetMapping()
+    public User getUserProfile(Principal principal) {
+        return userService.getUserByUsername(principal.getName());
     }
 
 }

@@ -10,6 +10,7 @@ import ru.kata.spring.boot_security.demo.utils.NoSuchUserException;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -17,11 +18,13 @@ public class UserServiceImpl implements UserService {
     private final UsersRepository usersRepository;
 
     private final PasswordEncoder passwordEncoder;
+    private final RoleService roleService;
 
     @Autowired
-    public UserServiceImpl(UsersRepository usersRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UsersRepository usersRepository, PasswordEncoder passwordEncoder, RoleService roleService) {
         this.usersRepository = usersRepository;
         this.passwordEncoder = passwordEncoder;
+        this.roleService = roleService;
     }
 
     @Override
@@ -33,6 +36,9 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void saveUser(User user) {
+        user.setRoles(user.getRoles().stream()
+                .map(role -> roleService.getByName(role.getName()))
+                .collect(Collectors.toSet()));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         usersRepository.save(user);
     }

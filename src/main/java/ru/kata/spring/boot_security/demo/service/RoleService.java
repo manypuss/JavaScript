@@ -6,5 +6,6 @@ import java.util.Collection;
 
 public interface RoleService {
     Collection<Role> getAllRoles();
+    Role getByName(String name);
 
 }

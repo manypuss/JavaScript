@@ -1,20 +1,14 @@
 package ru.kata.spring.boot_security.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
-import ru.kata.spring.boot_security.demo.utils.NoSuchUserException;
-import ru.kata.spring.boot_security.demo.utils.UserIncorrectData;
 
 import javax.validation.Valid;
-import java.security.Principal;
 import java.util.Collection;
 import java.util.List;
 
@@ -43,14 +37,15 @@ public class AdminController {
 
 
     @PostMapping("/admin")
-    public User saveNewUser(@RequestBody @Valid User user, BindingResult bindingResult) {
+    public User saveNewUser(@RequestBody @Valid User user) {
 
         userService.saveUser(user);
         return user;
     }
 
     @PutMapping("/admin")
-    public User edit(@RequestBody @Valid User user, BindingResult bindingResult) {
+    public User edit(@RequestBody @Valid User user) {
+
 
         userService.saveUser(user);
         return user;

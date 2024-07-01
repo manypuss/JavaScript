@@ -31,7 +31,7 @@ public class AdminController {
     }
 
     @GetMapping("/admin/user/{id}")
-    public User showUser(@PathVariable ("id") Long id) {
+    public User showUser(@PathVariable("id") Long id) {
         return userService.getUserById(id);
     }
 
@@ -46,23 +46,21 @@ public class AdminController {
     @PutMapping("/admin")
     public User edit(@RequestBody @Valid User user) {
 
-
         userService.saveUser(user);
         return user;
     }
 
     @DeleteMapping("/admin/user/{id}")
-    public String delete(@PathVariable ("id") Long id) {
+    public String delete(@PathVariable("id") Long id) {
 
-        if(userService.getUserById(id) != null) {
+        if (userService.getUserById(id) != null) {
             userService.deleteUserById(id);
-
         }
         return "User with ID = " + id + " was deleted";
     }
 
     @GetMapping("/admin/roles")
-    public Collection<Role> getAllRoles(){
+    public Collection<Role> getAllRoles() {
         return roleService.getAllRoles();
     }
 

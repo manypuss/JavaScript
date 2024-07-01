@@ -7,7 +7,8 @@ async function dataAboutCurrentUser() {
     const response = await fetch("/api/user")
     return await response.json();
 }
-async function fillTableAboutUser(){
+
+async function fillTableAboutUser() {
     const currentUserTable = document.getElementById("currentUserTable");
     const currentUser = await dataAboutCurrentUser();
 

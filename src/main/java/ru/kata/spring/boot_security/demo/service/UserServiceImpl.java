@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void deleteUserById(Long id) {
-        if (usersRepository.findById(id).isPresent()){
+        if (usersRepository.findById(id).isPresent()) {
             usersRepository.deleteById(id);
         }
     }

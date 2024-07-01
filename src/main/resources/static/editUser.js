@@ -6,7 +6,7 @@ async function getRoles() {
 async function sendDataEditUser(user) {
     const response = await fetch("/api/admin", {
         method: "PUT",
-        headers: { 'Content-Type': 'application/json' },
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(user)
     });
 
@@ -26,7 +26,7 @@ async function EditModalHandler() {
     await fillModal(modalEdit);
 }
 
-modalEdit.addEventListener("submit", async function(event){
+modalEdit.addEventListener("submit", async function (event) {
     event.preventDefault();
 
     const rolesSelected = document.getElementById("allRolesEdit");

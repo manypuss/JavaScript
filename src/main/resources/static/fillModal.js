@@ -2,9 +2,10 @@ async function getUserDataById(id) {
     const response = await fetch(`/api/admin/user/${id}`);
     return await response.json();
 }
+
 async function fillModal(modal) {
 
-    modal.addEventListener("show.bs.modal", async function(event) {
+    modal.addEventListener("show.bs.modal", async function (event) {
         console.log(event.relatedTarget);
 
         const userId = event.relatedTarget.dataset.userId;
@@ -28,7 +29,6 @@ async function fillModal(modal) {
         usersurnameInput.value = user.usersurname;
         departmentInput.value = user.department;
         salaryInput.value = user.salary;
-
 
 
         let rolesSelect = HTMLSelectElement;

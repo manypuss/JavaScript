@@ -25,7 +25,6 @@ async function addNewUserForm() {
         const rolesSelected = document.getElementById("rolesNew");
 
 
-
         let allRole = await getRoles();
         let AllRoles = {};
         for (let role of allRole) {

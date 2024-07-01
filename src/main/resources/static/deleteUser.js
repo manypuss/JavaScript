@@ -1,4 +1,4 @@
-async function deleteUserData(id){
+async function deleteUserData(id) {
     await fetch(`/api/admin/user/${id}`, {method: 'DELETE'});
 }
 
@@ -18,7 +18,7 @@ modalDelete.addEventListener('show.bs.modal', function (event) {
 });
 
 const formDelete = document.getElementById("formDeleteUser");
-formDelete.addEventListener("submit", async function(event) {
+formDelete.addEventListener("submit", async function (event) {
         event.preventDefault();
 
 

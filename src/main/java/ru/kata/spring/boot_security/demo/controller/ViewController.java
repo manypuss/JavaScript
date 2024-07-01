@@ -11,7 +11,7 @@ public class ViewController {
     }
 
     @GetMapping("/user")
-    public String showUserPage(){
+    public String showUserPage() {
         return "user-profile";
     }
 }

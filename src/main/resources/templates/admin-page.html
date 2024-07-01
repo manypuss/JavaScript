@@ -11,9 +11,11 @@
         html, body {
             height: 100%;
         }
+
         .full-height {
             height: 100%;
         }
+
         #sidebar-tabs .list-group-item.active {
             background-color: #007bff; /* Цвет фона активной вкладки */
             color: white !important; /* Цвет текста активной вкладки */
@@ -46,11 +48,11 @@
         <div class="col-2 sidebar d-flex flex-column p-0" id="sidebar-tabs" role="tablist">
             <div class="list-group">
                 <!-- Ссылки -->
-                <a class="list-group-item list-group-item-action border-0 text-primary active" id="admin-tab"
+                <a class="list-group-item list-group-item-action border-0 text-primary active no-refresh" id="admin-tab"
                    data-bs-toggle="tab" href="" role="tab" aria-controls="admin" aria-selected="true">
                     Admin
                 </a>
-                <a class="list-group-item list-group-item-action border-0 text-primary"
+                <a class="list-group-item list-group-item-action border-0 text-primary no-refresh"
                    th:href="@{/user}">
                     User
                 </a>
@@ -68,21 +70,23 @@
                     <!--Горизонтальные вкладки-->
                     <ul class="nav nav-tabs" id="nav-tab" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="admin-users-table-tab" data-bs-toggle="tab"
-                                    data-bs-target="#admin-users-table" type="button" role="tab" aria-controls="users-table"
+                            <button class="nav-link no-refresh active" id="admin-users-table-tab" data-bs-toggle="tab"
+                                    data-bs-target="#admin-users-table" type="button" role="tab"
+                                    aria-controls="users-table"
                                     aria-selected="true">
                                 Users table
                             </button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="new-user-tab" data-bs-toggle="tab" data-bs-target="#add-user"
+                            <button class="nav-link no-refresh" id="new-user-tab" data-bs-toggle="tab"
+                                    data-bs-target="#add-user"
                                     type="button" role="tab" aria-controls="add-user-tab" aria-selected="false">
                                 New User
                             </button>
                         </li>
                     </ul>
                     <div class="tab-content">
-                        <div class="tab-pane fade show" id="admin-users-table" role="tabpanel"
+                        <div class="tab-pane fade show active" id="admin-users-table" role="tabpanel"
                              aria-labelledby="users-table">
                             <!--Таблица с пользователями-->
                             <table class="table table-bordered table-striped">
@@ -116,7 +120,8 @@
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h1 class="modal-title fs-5" id="editLabel">Edit user</h1>
+                                                                <h1 class="modal-title fs-5" id="editLabel">Edit
+                                                                    user</h1>
                                                                 <button type="button" class="btn-close"
                                                                         data-bs-dismiss="modal" aria-label="Close">
                                                                 </button>
@@ -132,25 +137,29 @@
                                                                                data-user-id="username"/>
                                                                     </div>
                                                                     <div class="mb-2">
-                                                                        <label for="usersurnameEdit" class="col-form-label">Usersurname</label>
+                                                                        <label for="usersurnameEdit"
+                                                                               class="col-form-label">Usersurname</label>
                                                                         <input type="text" name="usersurname"
                                                                                class="form-control" id="usersurnameEdit"
                                                                                data-user-id="usersurname"/>
                                                                     </div>
                                                                     <div class="mb-2">
-                                                                        <label for="departmentEdit" class="col-form-label">Department</label>
+                                                                        <label for="departmentEdit"
+                                                                               class="col-form-label">Department</label>
                                                                         <input type="text" name="department"
                                                                                class="form-control" id="departmentEdit"
                                                                                data-user-id="department"/>
                                                                     </div>
                                                                     <div class="mb-2">
-                                                                        <label for="salaryEdit" class="col-form-label">Salary</label>
+                                                                        <label for="salaryEdit"
+                                                                               class="col-form-label">Salary</label>
                                                                         <input type="text" name="salary"
                                                                                class="form-control" id="salaryEdit"
                                                                                data-user-id="salary"/>
                                                                     </div>
                                                                     <div class="mb-2">
-                                                                        <label for="passwordEdit" class="col-form-label">Password</label>
+                                                                        <label for="passwordEdit"
+                                                                               class="col-form-label">Password</label>
                                                                         <input type="text" name="password"
                                                                                class="form-control" id="passwordEdit"
                                                                                data-user-id="password"/>
@@ -166,9 +175,12 @@
                                                                     </div>
                                                                     <div class="modal-footer">
                                                                         <button type="button" class="btn btn-secondary"
-                                                                                data-bs-dismiss="modal" aria-label="Close">Close
+                                                                                data-bs-dismiss="modal"
+                                                                                aria-label="Close">Close
                                                                         </button>
-                                                                        <button type="submit" class="btn btn-primary">Edit</button>
+                                                                        <button type="submit" class="btn btn-primary">
+                                                                            Edit
+                                                                        </button>
                                                                     </div>
                                                                 </form>
                                                             </div>
@@ -189,32 +201,39 @@
                                                             <div class="modal-body">
                                                                 <form id="formDeleteUser">
                                                                     <div class="mb-3">
-                                                                        <label for="usernameDelete" class="col-form-label">Username</label>
+                                                                        <label for="usernameDelete"
+                                                                               class="col-form-label">Username</label>
                                                                         <input type="text" name="username"
                                                                                class="form-control" id="usernameDelete"
                                                                                data-user-id="username" readonly/>
                                                                     </div>
                                                                     <div class="mb-2">
-                                                                        <label for="usersurnameDelete" class="col-form-label">Usersurname</label>
+                                                                        <label for="usersurnameDelete"
+                                                                               class="col-form-label">Usersurname</label>
                                                                         <input type="text" name="usersurname"
-                                                                               class="form-control" id="usersurnameDelete"
+                                                                               class="form-control"
+                                                                               id="usersurnameDelete"
                                                                                data-user-id="usersurname" readonly/>
                                                                     </div>
                                                                     <div class="mb-2">
-                                                                        <label for="departmentDelete" class="col-form-label">Department</label>
+                                                                        <label for="departmentDelete"
+                                                                               class="col-form-label">Department</label>
                                                                         <input type="text" name="department"
-                                                                               class="form-control" id="departmentDelete"
+                                                                               class="form-control"
+                                                                               id="departmentDelete"
                                                                                required minlength="2" maxlength="20"
                                                                                data-user-id="department" readonly/>
                                                                     </div>
                                                                     <div class="mb-2">
-                                                                        <label for="salaryDelete" class="col-form-label">Salary</label>
+                                                                        <label for="salaryDelete"
+                                                                               class="col-form-label">Salary</label>
                                                                         <input type="text" name="salary"
                                                                                class="form-control" id="salaryDelete"
                                                                                data-user-id="salary" readonly>
                                                                     </div>
                                                                     <div class="mb-2">
-                                                                        <label for="passwordDelete" class="col-form-label">Password</label>
+                                                                        <label for="passwordDelete"
+                                                                               class="col-form-label">Password</label>
                                                                         <input type="text" name="password"
                                                                                class="form-control" id="passwordDelete"
                                                                                data-user-id="password" readonly/>
@@ -230,9 +249,12 @@
                                                                     </div>
                                                                     <div class="modal-footer">
                                                                         <button type="button" class="btn btn-secondary"
-                                                                                data-bs-dismiss="modal" aria-label="Close">Close
+                                                                                data-bs-dismiss="modal"
+                                                                                aria-label="Close">Close
                                                                         </button>
-                                                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                                                        <button type="submit" class="btn btn-danger">
+                                                                            Delete
+                                                                        </button>
                                                                     </div>
                                                                 </form>
                                                             </div>
@@ -253,7 +275,7 @@
                             <table class="table table-bordered table-striped">
                                 <tbody>
                                 <tr>
-                                    <td class="container-fluid" >
+                                    <td class="container-fluid">
                                         <h5 class="mt-3">Add new user</h5>
                                     </td>
                                 </tr>
@@ -271,7 +293,8 @@
                                                         </span>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="usersurnameNew" class="col-form-label">Usersurname</label>
+                                                        <label for="usersurnameNew"
+                                                               class="col-form-label">Usersurname</label>
                                                         <input type="text" name="usersurname"
                                                                class="form-control" id="usersurnameNew"
                                                                placeholder="Usersurname"/>
@@ -279,7 +302,8 @@
                                                         </span>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="departmentNew" class="col-form-label">Department</label>
+                                                        <label for="departmentNew"
+                                                               class="col-form-label">Department</label>
                                                         <input type="text" name="department"
                                                                class="form-control" id="departmentNew"
                                                                placeholder="Department"/>
@@ -314,7 +338,8 @@
                                                         </select>
                                                     </div>
                                                     <div class="d-grid col-6 mx-auto">
-                                                        <input type="submit" class="btn btn-success" value="Add new user"/>
+                                                        <input type="submit" class="btn btn-success"
+                                                               value="Add new user"/>
                                                     </div>
                                                 </form>
                                             </div>

@@ -6,10 +6,12 @@ import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.repositories.RolesRepository;
 
 import java.util.Collection;
+
 @Service
 public class RoleServiceImpl implements RoleService {
 
     private final RolesRepository rolesRepository;
+
     @Autowired
     public RoleServiceImpl(RolesRepository rolesRepository) {
         this.rolesRepository = rolesRepository;

@@ -1,5 +1,5 @@
 async function deleteUserData(id) {
-    await fetch(`/api/admin/user/${id}`, {method: 'DELETE'});
+    await fetch(`/api/admin/users/${id}`, {method: 'DELETE'});
 }
 
 const modalDelete = document.getElementById("deleteModal");

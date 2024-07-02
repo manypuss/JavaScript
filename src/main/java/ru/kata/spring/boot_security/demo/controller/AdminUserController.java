@@ -1,7 +1,6 @@
 package ru.kata.spring.boot_security.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
@@ -14,44 +13,43 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/api")
-public class AdminController {
+@RequestMapping("/api/admin")
+public class AdminUserController {
     private final UserService userService;
     private final RoleService roleService;
 
     @Autowired
-    public AdminController(UserService userService, RoleService roleService) {
+    public AdminUserController(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
     }
 
-    @GetMapping("/admin")
-    public List<User> showAllUsers() {
+    @GetMapping("/users")
+    public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
 
-    @GetMapping("/admin/user/{id}")
-    public User showUser(@PathVariable("id") Long id) {
+    @GetMapping("/users/{id}")
+    public User getUserByUser(@PathVariable("id") Long id) {
         return userService.getUserById(id);
     }
 
+    @PostMapping("/users")
+    public User createUser(@RequestBody @Valid User user) {
 
-    @PostMapping("/admin")
-    public User saveNewUser(@RequestBody @Valid User user) {
-
-        userService.saveUser(user);
+        userService.createUser(user);
         return user;
     }
 
-    @PutMapping("/admin")
-    public User edit(@RequestBody @Valid User user) {
+    @PutMapping("/users/{id}")
+    public User updateUser(@PathVariable("id") Long id, @RequestBody @Valid User user) {
 
-        userService.saveUser(user);
+        userService.updateUser(id, user);
         return user;
     }
 
-    @DeleteMapping("/admin/user/{id}")
-    public String delete(@PathVariable("id") Long id) {
+    @DeleteMapping("/users/{id}")
+    public String deleteUser(@PathVariable("id") Long id) {
 
         if (userService.getUserById(id) != null) {
             userService.deleteUserById(id);
@@ -59,10 +57,8 @@ public class AdminController {
         return "User with ID = " + id + " was deleted";
     }
 
-    @GetMapping("/admin/roles")
+    @GetMapping("/roles")
     public Collection<Role> getAllRoles() {
         return roleService.getAllRoles();
     }
-
-
 }

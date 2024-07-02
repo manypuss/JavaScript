@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 });
 
 async function dataAboutCurrentUser() {
-    const response = await fetch("/api/user")
+    const response = await fetch("/api/profile")
     return await response.json();
 }
 

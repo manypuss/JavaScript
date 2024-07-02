@@ -14,19 +14,18 @@ import java.security.Principal;
 
 
 @RestController
-@RequestMapping("/api/user")
-public class UserController {
+@RequestMapping("/api/profile")
+public class UserProfileController {
 
     private final UserService userService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserProfileController(UserService userService) {
         this.userService = userService;
     }
 
     @GetMapping()
-    public User getUserProfile(Principal principal) {
+    public User getCurrentUser(Principal principal) {
         return userService.getUserByUsername(principal.getName());
     }
-
 }

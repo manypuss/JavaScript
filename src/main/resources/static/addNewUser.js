@@ -5,7 +5,7 @@ async function getRoles() {
 
 
 async function createNewUser(user) {
-    await fetch("/api/admin",
+    await fetch("/api/admin/users/",
         {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(user)})
 
 }

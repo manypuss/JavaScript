@@ -39,7 +39,7 @@ public class User implements UserDetails {
     @Column(name = "salary")
     private int salary;
     @NotNull(message = "Password should not be empty!")
-    @Size(min = 4, max = 100, message = "Password should be between 4 and 20 characters!")
+    @Size(min = 4, max = 100, message = "Password should be between 4 and 100 characters!")
     @Column(name = "password")
     private String password;
     @ManyToMany(fetch = FetchType.LAZY)
@@ -143,5 +143,4 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
 }

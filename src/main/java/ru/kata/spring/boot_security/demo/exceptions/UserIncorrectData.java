@@ -1,4 +1,4 @@
-package ru.kata.spring.boot_security.demo.utils;
+package ru.kata.spring.boot_security.demo.exceptions;
 
 public class UserIncorrectData {
     public String info;

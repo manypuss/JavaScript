@@ -3,8 +3,8 @@ async function getRoles() {
     return await response.json();
 }
 
-async function sendDataEditUser(user) {
-    const response = await fetch("/api/admin", {
+async function sendDataEditUser(user, id) {
+    const response = await fetch(`/api/admin/users/${id}`, {
         method: "PUT",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(user)
@@ -53,7 +53,7 @@ modalEdit.addEventListener("submit", async function (event) {
         roles: roles
     };
 
-    await sendDataEditUser(user);
+    await sendDataEditUser(user, userIdToEdit);
     await fillTableOfAllUsers();
 
     const modalBootstrap = bootstrap.Modal.getInstance(modalEdit);

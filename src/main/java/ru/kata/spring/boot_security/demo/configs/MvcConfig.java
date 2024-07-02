@@ -16,5 +16,4 @@ public class MvcConfig implements WebMvcConfigurer {
                 .resourceChain(true)
                 .addResolver(new PathResourceResolver());
     }
-
 }

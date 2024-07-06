@@ -10,6 +10,13 @@ async function sendDataEditUser(user, id) {
         body: JSON.stringify(user)
     });
 
+    if (!response.ok) {
+        const errorData = await response.json();
+        return {success: false, errors: errorData};
+    }
+
+    return {success: true};
+
 }
 
 const modalEdit = document.getElementById("editModal");
@@ -53,9 +60,25 @@ modalEdit.addEventListener("submit", async function (event) {
         roles: roles
     };
 
-    await sendDataEditUser(user, userIdToEdit);
-    await fillTableOfAllUsers();
+    const result = await sendDataEditUser(user, userIdToEdit);
 
-    const modalBootstrap = bootstrap.Modal.getInstance(modalEdit);
-    modalBootstrap.hide();
+
+    if (result.success) {
+        // Очистка формы и текста ошибок
+        const modalBootstrap = bootstrap.Modal.getInstance(modalEdit);
+        modalBootstrap.hide();
+        displayValidationErrorsForModal({}); // Очистка ошибок
+
+        await fillTableOfAllUsers();
+    } else {
+        displayValidationErrorsForModal(result.errors);
+    }
 });
+
+function displayValidationErrorsForModal(errors) {
+    document.getElementById("usernameEditError").textContent = errors.username || '';
+    document.getElementById("usersurnameEditError").textContent = errors.usersurname || '';
+    document.getElementById("departmentEditError").textContent = errors.department || '';
+    document.getElementById("salaryEditError").textContent = errors.salary || '';
+    document.getElementById("passwordEditError").textContent = errors.password || '';
+}

@@ -3,11 +3,19 @@ async function getRoles() {
     return await response.json();
 }
 
-
 async function createNewUser(user) {
-    await fetch("/api/admin/users/",
-        {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(user)})
+    const response = await fetch("/api/admin/users/", {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(user)
+    });
 
+    if (!response.ok) {
+        const errorData = await response.json();
+        return {success: false, errors: errorData};
+    }
+
+    return {success: true};
 }
 
 async function addNewUserForm() {
@@ -24,19 +32,17 @@ async function addNewUserForm() {
 
         const rolesSelected = document.getElementById("rolesNew");
 
-
-        let allRole = await getRoles();
+        let allRoles = await getRoles();
         let AllRoles = {};
-        for (let role of allRole) {
+        for (let role of allRoles) {
             AllRoles[role.name] = role.id;
         }
         let roles = [];
         for (let option of rolesSelected.selectedOptions) {
-            if (Object.keys(AllRoles).indexOf(option.value) != -1) {
+            if (Object.keys(AllRoles).indexOf(option.value) !== -1) {
                 roles.push({roleId: AllRoles[option.value], name: option.value});
             }
         }
-
 
         const newUserData = {
             username: name,
@@ -47,10 +53,27 @@ async function addNewUserForm() {
             roles: roles
         };
 
-        await createNewUser(newUserData);
-        newUserForm.reset();
+        const result = await createNewUser(newUserData);
 
-        document.querySelector('#admin-users-table-tab').click();
-        await fillTableOfAllUsers();
+        if (result.success) {
+            // Очистка формы и текста ошибок
+            newUserForm.reset();
+            displayValidationErrors({}); // Очистка ошибок
+
+            // Переход на вкладку с таблицей пользователей и обновление таблицы
+            document.querySelector('#admin-users-table-tab').click();
+            await fillTableOfAllUsers();
+        } else {
+            displayValidationErrors(result.errors);
+        }
     });
 }
+
+function displayValidationErrors(errors) {
+    document.getElementById("usernameError").textContent = errors.username || '';
+    document.getElementById("usersurnameError").textContent = errors.usersurname || '';
+    document.getElementById("departmentError").textContent = errors.department || '';
+    document.getElementById("salaryError").textContent = errors.salary || '';
+    document.getElementById("passwordError").textContent = errors.password || '';
+}
+

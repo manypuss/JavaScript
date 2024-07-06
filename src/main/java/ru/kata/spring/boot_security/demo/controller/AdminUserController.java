@@ -1,6 +1,9 @@
 package ru.kata.spring.boot_security.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
@@ -9,7 +12,9 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 
 import javax.validation.Valid;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -25,40 +30,48 @@ public class AdminUserController {
     }
 
     @GetMapping("/users")
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    public ResponseEntity<List<User>> getAllUsers() {
+        return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
     @GetMapping("/users/{id}")
-    public User getUserByUser(@PathVariable("id") Long id) {
-        return userService.getUserById(id);
+    public ResponseEntity<User> getUser(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
     }
 
+
     @PostMapping("/users")
-    public User createUser(@RequestBody @Valid User user) {
+    public ResponseEntity<?> createUser(@RequestBody @Valid User user, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            bindingResult.getFieldErrors().forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
+            return ResponseEntity.badRequest().body(errors);
+        }
 
         userService.createUser(user);
-        return user;
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @PutMapping("/users/{id}")
-    public User updateUser(@PathVariable("id") Long id, @RequestBody @Valid User user) {
+    public ResponseEntity<?> updateUser(@PathVariable("id") Long id, @RequestBody @Valid User user, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            bindingResult.getFieldErrors().forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
+            return ResponseEntity.badRequest().body(errors);
+        }
 
         userService.updateUser(id, user);
-        return user;
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @DeleteMapping("/users/{id}")
-    public String deleteUser(@PathVariable("id") Long id) {
-
-        if (userService.getUserById(id) != null) {
-            userService.deleteUserById(id);
-        }
-        return "User with ID = " + id + " was deleted";
+    public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") Long id) {
+        userService.deleteUserById(id);
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @GetMapping("/roles")
-    public Collection<Role> getAllRoles() {
-        return roleService.getAllRoles();
+    public ResponseEntity<Collection<Role>> getAllRoles() {
+        return new ResponseEntity<>(roleService.getAllRoles(), HttpStatus.OK);
     }
 }

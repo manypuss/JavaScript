@@ -53,7 +53,9 @@ public class UserServiceImpl implements UserService {
         updateUser.setUsersurname(user.getUsersurname());
         updateUser.setDepartment(user.getDepartment());
         updateUser.setSalary(user.getSalary());
-        updateUser.setPassword(passwordEncoder.encode(user.getPassword()));
+        if (!user.getPassword().equals(updateUser.getPassword())) {
+            updateUser.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
         updateUser.setRoles(user.getRoles().stream()
                 .map(role -> roleService.getByName(role.getName()))
                 .collect(Collectors.toSet()));

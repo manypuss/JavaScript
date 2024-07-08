@@ -1,5 +1,5 @@
 async function dataAboutAllUsers() {
-    const response = await fetch("/api/admin/users");
+    const response = await fetch("/api/users");
     return await response.json();
 }
 

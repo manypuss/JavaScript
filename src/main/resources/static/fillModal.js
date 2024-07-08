@@ -1,5 +1,5 @@
 async function getUserDataById(id) {
-    const response = await fetch(`/api/admin/users/${id}`);
+    const response = await fetch(`/api/users/${id}`);
     return await response.json();
 }
 
@@ -9,7 +9,6 @@ async function fillModal(modal) {
         console.log(event.relatedTarget);
 
         const userId = event.relatedTarget.dataset.userId;
-        console.log("Fetching user data for id:", userId);
         const user = await getUserDataById(userId);
 
         const modalBody = modal.querySelector(".modal-body");

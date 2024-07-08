@@ -1,5 +1,5 @@
 async function deleteUserData(id) {
-    await fetch(`/api/admin/users/${id}`, {method: 'DELETE'});
+    await fetch(`/api/users/${id}`, {method: 'DELETE'});
 }
 
 const modalDelete = document.getElementById("deleteModal");
@@ -14,7 +14,6 @@ modalDelete.addEventListener('show.bs.modal', function (event) {
     const button = event.relatedTarget;
     // Извлечь информацию из атрибута data-user-id
     userIdToDelete = button.getAttribute('data-user-id');
-    console.log("Fetching user data for id:", userIdToDelete);
 });
 
 const formDelete = document.getElementById("formDeleteUser");

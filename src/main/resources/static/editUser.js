@@ -1,10 +1,10 @@
 async function getRoles() {
-    const response = await fetch(`/api/admin/roles`);
+    const response = await fetch(`/api/profile/roles`);
     return await response.json();
 }
 
 async function sendDataEditUser(user, id) {
-    const response = await fetch(`/api/admin/users/${id}`, {
+    const response = await fetch(`/api/users/${id}`, {
         method: "PUT",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(user)
@@ -26,7 +26,6 @@ let userIdToEdit = null;
 modalEdit.addEventListener('show.bs.modal', function (event) {
     const button = event.relatedTarget;
     userIdToEdit = button.getAttribute('data-user-id');
-    console.log('Modal opened for user with ID:', userIdToEdit); // Отладочное сообщение
 });
 
 async function EditModalHandler() {

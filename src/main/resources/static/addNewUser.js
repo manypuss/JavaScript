@@ -1,10 +1,10 @@
 async function getRoles() {
-    const response = await fetch("/api/admin/roles");
+    const response = await fetch("/api/profile/roles");
     return await response.json();
 }
 
 async function createNewUser(user) {
-    const response = await fetch("/api/admin/users/", {
+    const response = await fetch("/api/users", {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(user)
